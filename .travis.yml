@@ -5,7 +5,7 @@ node_js:
 jobs:
   include:
     - stage: test
-      name: "Lint Backend
+      name: Lint Backend
       script:
         - yarn
         - yarn lint
