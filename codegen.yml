@@ -1,0 +1,18 @@
+schema: src/@lightbot/schema.graphql
+overwrite: true
+generates:
+  ./src/types/types.ts:
+    plugins:
+      - time
+      - add: '// THIS FILE IS GENERATED'
+      - add: '/* tslint:disable */'
+      - add: ''
+      - add: 'export type Input<T> = { input: T }'
+      - add: 'export type Where<T> = { where: T }'
+      - add: ''
+      - add: ''
+      - add: ''
+      - typescript-common
+      - typescript-server
+    config:
+      avoidOptionals: true

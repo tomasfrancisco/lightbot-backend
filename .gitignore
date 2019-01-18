@@ -1,0 +1,26 @@
+# IDE
+.idea/
+.vscode/
+
+# NPM / Yarn
+node_modules/
+*error.log
+package-lock.json
+
+# Builds and tests
+build/
+
+# Environment
+.env
+
+# Rasa
+rasa/data/
+rasa/logs/
+rasa/projects/
+
+!rasa/data/.gitkeep
+!rasa/logs/.gitkeep
+!rasa/projects/.gitkeep
+
+migrate.*
+roadmap.md

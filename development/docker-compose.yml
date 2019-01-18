@@ -1,0 +1,29 @@
+version: "3"
+services:
+  lightbotDB:
+    image: mysql:8
+    volumes:
+      - lightbotDB:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: lightbot
+  lightbotAdmin:
+    image: adminer
+    depends_on:
+      - lightbotDB
+    ports:
+      - 8080:8080
+  rasanlu:
+    build:
+      dockerfile: ./Dockerfile_rasa
+      context: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - "../rasa/projects:/app/projects"
+      - "../rasa/logs:/app/logs"
+      - "../rasa/data:/app/data"
+volumes:
+  lightbotDB:

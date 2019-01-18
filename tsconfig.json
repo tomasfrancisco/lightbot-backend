@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "pretty": true,
+    "baseUrl": "./src",
+    "outDir": "build",
+    "module": "commonjs",
+    "target": "es2018",
+    "lib": [
+      "esnext"
+    ],
+    "sourceMap": true,
+    "allowJs": true,
+    "moduleResolution": "node",
+    "strict": true,
+    "noEmitOnError": true,
+    "downlevelIteration": true,
+    "preserveSymlinks": true,
+    "skipLibCheck": true,
+    "paths": {
+      "~/*": [
+        "*"
+      ]
+    },
+    "noImplicitAny": true,
+    "diagnostics": true,
+    "resolveJsonModule": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  },
+  "exclude": [
+    "node_modules",
+    "test/"
+  ],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.js",
+    "src/**/*.json"
+  ],
+  "typeAcquisition": {
+    "enable": true
+  }
+}
