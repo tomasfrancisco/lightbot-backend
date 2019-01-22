@@ -64,7 +64,7 @@
     "reflect-metadata": "0.1.12",
     "rimraf": "2.6.3",
     "tsconfig-paths": "3.7.0",
-    "typeorm": "0.2.11",
+    "typeorm": "0.2.12",
     "uuid": "3.3.2"
   },
   "scripts": {

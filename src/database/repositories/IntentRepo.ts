@@ -3,6 +3,7 @@ import { Brackets, EntityRepository, In, IsNull, Like, Not } from "typeorm";
 import { Agent, Intent, User } from "~/database/entities";
 import { BaseRepo } from "~/database/repositories/BaseRepo";
 import { IntentExpression, SearchIntent } from "~/graph";
+import { LogMethodTime } from "~/utils";
 
 @EntityRepository(Intent)
 export class IntentRepo extends BaseRepo<Intent> {
@@ -110,6 +111,10 @@ export class IntentRepo extends BaseRepo<Intent> {
   }
 
   public async findIds(agent: Agent, ids: number[]): Promise<Intent[]> {
+    if (ids.length === 0) {
+      return [];
+    }
+
     return this.find({
       select: ["id"],
       where: {
@@ -129,21 +134,22 @@ export class IntentRepo extends BaseRepo<Intent> {
     return this.resultOrThrow(result, errorIfNull);
   }
 
+  @LogMethodTime("IntentRepo#FindOneByUserAndId")
   public async findOneByUserAndId<MaybeError extends Error | undefined>(
     user: User,
     id: number,
     errorIfNull: MaybeError,
   ): SmartPromise<Intent, MaybeError> {
-    const result = await this.findOne({
-      where: {
-        agent: {
-          company: {
-            id: user.companyId,
-          },
-        },
-      },
-      relations: IntentRepo.defaultRelations,
-    });
+    const qb = this.createQueryBuilder("intent");
+    IntentRepo.defaultRelations.forEach(it => qb.relation(it));
+
+    const result = await qb
+      .innerJoin("intent.agent", "agent")
+      .innerJoin("agent.company", "company", "company.id = :companyId", {
+        companyId: user.companyId,
+      })
+      .where("intent.id = :intentId", { intentId: id })
+      .getOne();
 
     return this.resultOrThrow(result, errorIfNull);
   }

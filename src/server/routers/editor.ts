@@ -46,12 +46,20 @@ export const getEditorRoutes = () => {
           path: error.path,
         });
 
+        const code = error.type || error.code || "INTERNAL_ERROR";
+
         if (IS_PRODUCTION) {
           return {
-            code: !isNil(error.type) ? error.type : "INTERNAL_ERROR",
+            code,
           };
         } else {
-          return error;
+          return {
+            ...error,
+            code,
+            extensions: {
+              code,
+            },
+          };
         }
       },
       context,
