@@ -15,10 +15,6 @@ also contains an API to have conversations with a deployed bot via
 
 The Lightbot Backend can currently deploy a bot on Dialogflow and RASA NLU.
 
-Lightbot Widget is a chatbot client interface which allows the user to interact with a
-bot. This bot can be created by
-[Lightbot Editor](https://github.com/lightbasenl/lightbot-editor).
-
 ## Up and Running
 
 #### Requirements
