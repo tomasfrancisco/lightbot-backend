@@ -5,9 +5,7 @@
     "outDir": "build",
     "module": "commonjs",
     "target": "es2018",
-    "lib": [
-      "esnext"
-    ],
+    "lib": ["esnext"],
     "sourceMap": true,
     "allowJs": true,
     "moduleResolution": "node",
@@ -17,9 +15,7 @@
     "preserveSymlinks": true,
     "skipLibCheck": true,
     "paths": {
-      "~/*": [
-        "*"
-      ]
+      "~/*": ["*"]
     },
     "noImplicitAny": true,
     "diagnostics": true,
@@ -27,16 +23,8 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
-  "exclude": [
-    "node_modules",
-    "test/",
-    "src/@lightbot"
-  ],
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.js",
-    "src/**/*.json"
-  ],
+  "exclude": ["node_modules", "test/", "src/@lightbot"],
+  "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.json"],
   "typeAcquisition": {
     "enable": true
   }

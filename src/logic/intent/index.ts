@@ -1,4 +1,4 @@
-import { isNil, isPlainObject, isString } from "lodash";
+import { isNil, isNumber, isPlainObject, isString } from "lodash";
 import { Agent, Intent, User } from "~/database/entities";
 import { getIntentRepo, getIntentTriggerRepo } from "~/database/repositories";
 import {
@@ -82,23 +82,29 @@ export const intentValidateOutputs = (output: any[]) => {
           },
         };
       case "JUMPS":
-        if (isNil(it.jumps) || !Array.isArray(it.jumps)) {
+        if (isNil(it.value.jumps) || !Array.isArray(it.value.jumps)) {
           throw new GraphError(ErrorCode.InvalidIntent, "Invalid JUMPS output");
         }
 
         return {
           type: "JUMPS",
-          jumps: it.jumps.map((jmp: any) => {
-            if (!isPlainObject(jmp) || !isString(jmp.intentId) || !isString(jmp.label)) {
-              throw new GraphError(ErrorCode.InvalidIntent, "Invalid JUMPS output");
-            }
-            collectedJumpIntents.push(jmp.intentId);
+          value: {
+            jumps: it.value.jumps.map((jmp: any) => {
+              if (
+                !isPlainObject(jmp) ||
+                !isNumber(jmp.intentId) ||
+                !isString(jmp.label)
+              ) {
+                throw new GraphError(ErrorCode.InvalidIntent, "Invalid JUMPS output");
+              }
+              collectedJumpIntents.push(jmp.intentId);
 
-            return {
-              intentId: jmp.intentId,
-              label: jmp.label,
-            };
-          }),
+              return {
+                intentId: Number(jmp.intentId),
+                label: jmp.label,
+              };
+            }),
+          },
         };
       default:
         throw new GraphError(ErrorCode.InvalidIntent, "Invalid Intent#outputs");

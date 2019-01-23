@@ -2,7 +2,6 @@
 
 Old dialogflow converter, kept here for backwards compatability, for as long as needed.
 
-
 #### Deps
 
 - archiver
@@ -13,6 +12,7 @@ Old dialogflow converter, kept here for backwards compatability, for as long as 
 - rimraf
 
 ##### Process
+
 - Filestructure and content validation
 - Transforms && normalize
 - Conversation flow parsing

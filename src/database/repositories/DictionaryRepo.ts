@@ -52,7 +52,11 @@ export class DictionaryRepo extends BaseRepo<Dictionary> {
       name,
     });
 
-    return this.save(intermediate, { reload: true });
+    const result = await this.save(intermediate);
+
+    return (await this.findOne(result.id, {
+      relations: DictionaryRepo.defaultRelations,
+    }))!;
   }
 
   public async findByAgent(agent: Agent): Promise<Dictionary[]> {

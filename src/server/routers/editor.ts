@@ -26,7 +26,7 @@ export const getSchema = () => {
 export const getEditorRoutes = () => {
   const router = new KoaRouter({ prefix: "editor" });
 
-  router.use(authorizeUser({ throwIfNull: IS_PRODUCTION, throwGraphError: true }));
+  router.use(authorizeUser({ throwIfNull: true, throwGraphError: true }));
 
   router.all(
     "/",

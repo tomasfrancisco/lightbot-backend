@@ -11,8 +11,10 @@ An folder structure for the input directory has at least the following structure
 - And a `context.yaml` file
 
 #### YAML FILES
+
 See [YAML](./yaml/README.md)
 
 **Note**
 
-Some tables do not render nicely in the web interface of Gitlab. See https://gitlab.com/gitlab-org/gitlab-ce/issues/44946
+Some tables do not render nicely in the web interface of Gitlab. See
+https://gitlab.com/gitlab-org/gitlab-ce/issues/44946

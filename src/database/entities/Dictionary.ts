@@ -32,7 +32,7 @@ export class Dictionary extends BaseEntity {
     return {
       ...super.toGraphType(),
       name: this.name,
-      values: this.values.map(it => it.toGraphType()),
+      values: (this.values || []).map(it => it.toGraphType()),
     };
   }
 }

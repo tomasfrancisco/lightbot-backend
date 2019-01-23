@@ -81,12 +81,13 @@
     "test:watch": "jest --watchAll",
     "lint": "yarn lint:ts && yarn lint:prettier",
     "lint:ts": "tslint --project ./tsconfig.json '**/*.{ts,tsx}'",
-    "lint:prettier": "prettier --config ./.prettierrc --list-different \"./src/**/*.{ts,js,json}\"",
+    "lint:prettier": "prettier --config ./.prettierrc --list-different \"./**/**/*.{ts,js,json,md}\"",
     "lint:fix": "yarn lint:ts --fix && yarn lint:prettier --write",
     "clean": "rm -rf ./build",
     "generate-gql-ts": "gql-gen",
     "docker:up": "docker-compose -f development/docker-compose.yml up -d",
-    "docker:down": "docker-compose -f development/docker-compose.yml down"
+    "docker:down": "docker-compose -f development/docker-compose.yml down",
+    "migrate:dev": "cd src/database/migrations && node runMigration.js dev"
   },
   "scripts-info": {
     "build:*": "Run the typescript compiler with optional watch mode.",

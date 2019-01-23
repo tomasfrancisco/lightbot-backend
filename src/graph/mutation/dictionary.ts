@@ -76,9 +76,11 @@ export const dictionaryMutations = {
     );
     await Promise.all(promises);
 
-    const result = await getDictionaryRepo().findOne({
-      where: { id: dict.id },
-    });
+    const result = await getDictionaryRepo().findByIdAndUser(
+      dict.id,
+      context.user,
+      undefined,
+    );
 
     return result ? result.toGraphType() : undefined;
   },

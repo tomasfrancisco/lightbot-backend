@@ -14,6 +14,8 @@ const REQUIRED_ENV_KEYS = [
   "DB_PORT",
   "DB_USER",
   "DB_PASS",
+  "DB_NAME",
+  "RASA_URL",
 ];
 
 const checkRequiredEnvKeys = () => {

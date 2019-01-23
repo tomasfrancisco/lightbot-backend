@@ -17,7 +17,13 @@ class LogsWhenFailReporter extends DefaultReporter {
     const consoleBuffer = result.console;
     const testFailed = result.numFailingTests > 0;
     if (testFailed && consoleBuffer && consoleBuffer.length) {
-      this.log(`  ${TITLE_BULLET}Console\n\n${getConsoleOutput(config.cwd, !!this._globalConfig.verbose, consoleBuffer)}`);
+      this.log(
+        `  ${TITLE_BULLET}Console\n\n${getConsoleOutput(
+          config.cwd,
+          !!this._globalConfig.verbose,
+          consoleBuffer,
+        )}`,
+      );
     }
   }
 }

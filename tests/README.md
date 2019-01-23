@@ -6,7 +6,6 @@
 
 - `LogsWhenFailReporter`: Will only output app logging when a test fails.
 
-
 **Middleware:**
 
 Test general app middleware without running them in a full app.

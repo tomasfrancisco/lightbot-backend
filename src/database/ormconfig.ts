@@ -22,7 +22,7 @@ export const config: ConnectionOptions = {
   username: process.env.DB_USER,
   password: process.env.DB_PASS,
   port: Number(process.env.DB_PORT),
-  database: process.env.NODE_ENV === "test" ? "ligthbottest" : "lightbot",
+  database: process.env.DB_NAME,
   synchronize: false,
   logging: ["error"],
   entities: [
