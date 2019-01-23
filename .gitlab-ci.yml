@@ -14,7 +14,8 @@ build:
   before_script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
   script:
-    - printenv | grep -i "prod_" | sed -e "s/^ENV_//" > .env
+#    List all environment variables, find the ones that start with PROD_ and strip PROD_ from the names.
+    - printenv | grep -i "prod_" | sed -e "s/^PROD_//" > .env
     - docker build -t ${CI_REGISTRY}/lightbase/lightbot-backend:latest -t ${CI_REGISTRY}/lightbase/lightbot-backend:$CI_COMMIT_SHA .
     - docker push ${CI_REGISTRY}/lightbase/lightbot-backend:latest
     - docker push ${CI_REGISTRY}/lightbase/lightbot-backend:$CI_COMMIT_SHA
