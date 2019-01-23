@@ -1,0 +1,21 @@
+stages:
+  - build
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+build:
+  stage: build
+  image: docker
+  services:
+    - docker:dind
+  only:
+    - master
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+  script:
+    - printenv | grep -i "prod_" | sed -e "s/^ENV_//" > .env
+    - docker build -t ${CI_REGISTRY}/lightbase/lightbot-backend:latest -t ${CI_REGISTRY}/lightbase/lightbot-backend:$CI_COMMIT_SHA .
+    - docker push ${CI_REGISTRY}/lightbase/lightbot-backend:latest
+    - docker push ${CI_REGISTRY}/lightbase/lightbot-backend:$CI_COMMIT_SHA
+
