@@ -7,7 +7,7 @@ export interface AgentDataObject {
   /**
    * The agent id for this data
    */
-  agentId?: number;
+  agentId?: string;
   /**
    * Agent name
    */
@@ -56,7 +56,7 @@ export interface AgentDataObject {
 @Entity({ orderBy })
 @Index("idx_agent_key", ["agent", "key"], { unique: true })
 export class AgentData extends BaseEntity {
-  public static toObject(agentId: number, data: AgentData[]): AgentDataObject {
+  public static toObject(agentId: string, data: AgentData[]): AgentDataObject {
     const obj = reduce(
       data,
       (previousValue: AgentDataObject, currentValue: AgentData) => {

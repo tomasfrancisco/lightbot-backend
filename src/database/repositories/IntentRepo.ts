@@ -2,7 +2,7 @@ import { isNil, set } from "lodash";
 import { Brackets, EntityRepository, In, IsNull, Like, Not } from "typeorm";
 import { Agent, Intent, User } from "~/database/entities";
 import { BaseRepo } from "~/database/repositories/BaseRepo";
-import { IntentExpression, SearchIntent } from "~/graph";
+import { IntentExpression, SearchIntent } from "~/types";
 import { LogMethodTime } from "~/utils";
 
 @EntityRepository(Intent)

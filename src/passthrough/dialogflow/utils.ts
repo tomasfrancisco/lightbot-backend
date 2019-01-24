@@ -4,7 +4,7 @@ import { logger } from "~/logger";
 import { BotResponse } from "~/passthrough";
 import { saveFallbackMessage } from "~/passthrough/common";
 
-export const getAllAgentData = (agent: Agent) => AgentData.toObject(agent.id, agent.data);
+export const getAllAgentData = (agent: Agent) => AgentData.toObject(agent.uuid, agent.data);
 
 export const handleReponse = async (
   agent: Agent,

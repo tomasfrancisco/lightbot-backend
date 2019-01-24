@@ -1,3 +1,0 @@
-[submodule "src/@lightbot"]
-	path = src/@lightbot
-	url = ../lightbot-backend.git

@@ -1,8 +1,8 @@
 import { isNil } from "lodash";
 import { User } from "~/database/entities";
 import { getDictionaryRepo } from "~/database/repositories";
-import { ActionType, DictionaryValueData, GraphError } from "~/graph";
-import { ErrorCode } from "~/types";
+import { GraphError } from "~/graph";
+import { ActionType, DictionaryValueData, ErrorCode } from "~/types";
 
 export const dictionaryNameValidation = async (
   name: string,

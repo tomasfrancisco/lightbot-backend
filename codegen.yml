@@ -1,4 +1,4 @@
-schema: src/@lightbot/schema.graphql
+schema: ./node_modules/lightbot-ssot/schema.graphql
 overwrite: true
 generates:
   ./src/types/types.ts:

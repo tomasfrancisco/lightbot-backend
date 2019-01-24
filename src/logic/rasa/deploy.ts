@@ -6,10 +6,10 @@ import { logger } from "~/logger";
 import { convertToRasa } from "~/logic/rasa/converter";
 import { ErrorCode } from "~/types";
 
-export async function deployRasa(agentId: number, user: User): Promise<void> {
+export async function deployRasa(agentId: string, user: User): Promise<void> {
   const agent = await getAgentRepo().findByUserAndId(
     user,
-    agentId,
+    {uuid: agentId},
     new GraphError(ErrorCode.InvalidAgent, "Invalid agent."),
   );
   const data = await convertToRasa(agent);

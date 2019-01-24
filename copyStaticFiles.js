@@ -1,14 +1,17 @@
 const { join, dirname } = require("path");
 const fs = require("fs");
 
-const schemaFile = "@lightbot/schema.graphql";
+const schemaFile = {
+  src: "./node_modules/lightbot-ssot/schema.graphql",
+  dest: "./build/schema.graphql"
+};
 
 [schemaFile].forEach(copyFile);
 
 function copyFile(partialPath) {
-  const fileContents = fs.readFileSync(join("./src/", partialPath));
+  const fileContents = fs.readFileSync(partialPath.src);
 
-  const writePath = join("./build/", partialPath);
+  const writePath = join(partialPath.dest);
   try {
     fs.mkdirSync(dirname(writePath));
   } catch (e) {} // Probably already exists

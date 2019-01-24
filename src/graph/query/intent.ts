@@ -1,7 +1,7 @@
 import { isNil } from "lodash";
 import { getIntentRepo } from "~/database/repositories";
-import { Intent, SearchIntentTrigger, Where } from "~/graph";
 import { Context } from "~/server/middleware";
+import { Intent, SearchIntentTrigger, Where } from "~/types";
 
 export const intentQueries = {
   children: async (intent: Intent, __: never, context: Context) => {

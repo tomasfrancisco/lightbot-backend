@@ -12,7 +12,7 @@ import { Context } from "~/server/middleware";
 import { authorizeUser } from "~/server/middleware/requireUser";
 import { IS_PRODUCTION } from "~/utils";
 
-const typeDefs = readFileSync(join(__dirname, "../../@lightbot/schema.graphql"), "utf8");
+const typeDefs = readFileSync(join(__dirname, "../../../build/schema.graphql"), "utf8");
 
 export const getSchema = () => {
   const resolvers = merge({}, queries, mutations);

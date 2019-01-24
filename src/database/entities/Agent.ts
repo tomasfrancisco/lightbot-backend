@@ -1,11 +1,5 @@
 import {
-  Column,
-  Entity,
-  Index,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  RelationId,
+  Column, Entity, Generated, Index, JoinColumn, ManyToOne, OneToMany, RelationId,
 } from "typeorm";
 import { AgentData } from "./AgentData";
 import { BaseEntity, orderBy } from "./BaseEntity";
@@ -16,6 +10,14 @@ import { UnknownTrigger } from "./UnknownTrigger";
 @Entity({ orderBy })
 @Index("idx_name_company", ["company", "name"], { unique: true })
 export class Agent extends BaseEntity {
+  @Column({
+    length: 36,
+    type: "varchar",
+    unique: true
+  })
+  @Generated("uuid")
+  public uuid!: string;
+
   @ManyToOne(() => Company, company => company.agents)
   @JoinColumn()
   public company!: Company;
@@ -41,8 +43,9 @@ export class Agent extends BaseEntity {
   public toGraphType(): any {
     return {
       ...super.toGraphType(),
+      id: this.uuid,
       name: this.name,
-      data: AgentData.toObject(this.id, this.data),
+      data: AgentData.toObject(this.uuid, this.data),
       unknownTriggers: this.unknownTriggers.map(it => it.toGraphType()),
       unknownTriggersCount: this.unknownTriggers.length,
     };

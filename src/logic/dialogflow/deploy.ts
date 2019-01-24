@@ -8,10 +8,10 @@ import { ErrorCode } from "~/types";
 // tslint:disable-next-line:no-require-imports no-var-requires
 const lightbotCLI = require("./old");
 
-export async function deployDialogflow(agentId: number, user: User): Promise<void> {
+export async function deployDialogflow(agentId: string, user: User): Promise<void> {
   const agent = await getAgentRepo().findByUserAndId(
     user,
-    agentId,
+    {uuid: agentId},
     new GraphError(ErrorCode.InvalidAgent, "Invalid agent."),
   );
   logger.log(`Converting data from ${agent.name} to dialogflow.`);

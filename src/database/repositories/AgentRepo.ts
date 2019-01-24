@@ -2,12 +2,17 @@ import { EntityRepository } from "typeorm";
 import { Agent, User } from "~/database/entities";
 import { BaseRepo } from "~/database/repositories/BaseRepo";
 
+export interface CompositeAgentId {
+  id?: number;
+  uuid?: string;
+}
+
 @EntityRepository(Agent)
 export class AgentRepo extends BaseRepo<Agent> {
   private static readonly defaultRelations = ["data", "unknownTriggers"];
 
   public async findOneById<MaybeError extends Error | undefined>(
-    id: number,
+    id: CompositeAgentId,
     errorIfNull: MaybeError,
   ): SmartPromise<Agent, MaybeError> {
     const result = await this.findOne(id, { relations: AgentRepo.defaultRelations });
@@ -17,12 +22,12 @@ export class AgentRepo extends BaseRepo<Agent> {
 
   public async findByUserAndId<MaybeError extends Error | undefined>(
     user: User,
-    id: number,
+    id: CompositeAgentId,
     errorIfNull: MaybeError,
   ): SmartPromise<Agent, MaybeError> {
     const result = await this.findOne({
       where: {
-        id,
+        ...id,
         company: {
           id: user.companyId,
         },

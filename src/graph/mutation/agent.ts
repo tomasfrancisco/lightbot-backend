@@ -6,18 +6,18 @@ import {
   getIntentRepo,
   getUnknownTriggerRepo,
 } from "~/database/repositories";
+import { GraphError } from "~/graph";
 
+import { agentAddAndRemoveUnknownTriggers, intentThrowIfNameExists } from "~/logic";
+import { Context } from "~/server/middleware";
 import {
   CreateIntentWithUnknownTriggers,
   DeleteUnknownTriggers,
-  GraphError,
+  ErrorCode,
   Input,
   MoveUnknownTriggersToIntentDataInput,
   UpdateWidgetData,
-} from "~/graph";
-import { agentAddAndRemoveUnknownTriggers, intentThrowIfNameExists } from "~/logic";
-import { Context } from "~/server/middleware";
-import { ErrorCode } from "~/types";
+} from "~/types";
 
 export const agentMutations = {
   updateWidgetData: async (
@@ -27,7 +27,7 @@ export const agentMutations = {
   ) => {
     const agent = await getAgentRepo().findByUserAndId(
       user,
-      input.agentId,
+      { uuid: input.agentId },
       new GraphError(ErrorCode.InvalidAgent, "Agent not found."),
     );
     const dataRepo = getAgentDataRepo();
@@ -59,7 +59,7 @@ export const agentMutations = {
   ) => {
     const agent = await getAgentRepo().findByUserAndId(
       user,
-      input.agentId,
+      { uuid: input.agentId },
       new GraphError(ErrorCode.InvalidAgent, "Agent not found."),
     );
     const intent = await getIntentRepo().findOneByUserAndId(
@@ -77,7 +77,7 @@ export const agentMutations = {
   ) => {
     const agent = await getAgentRepo().findByUserAndId(
       user,
-      input.agentId,
+      { uuid: input.agentId },
       new GraphError(ErrorCode.InvalidAgent, "Agent not found."),
     );
 
@@ -104,7 +104,7 @@ export const agentMutations = {
   ) => {
     const agent = await getAgentRepo().findByUserAndId(
       user,
-      input.agentId,
+      { uuid: input.agentId },
       new GraphError(ErrorCode.InvalidAgent, "Agent not found."),
     );
     await getUnknownTriggerRepo().delete({

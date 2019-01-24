@@ -4463,6 +4463,10 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
+lightbot-ssot@lightbasenl/lightbot-ssot#80d6a0d8:
+  version "1.0.0"
+  resolved "https://codeload.github.com/lightbasenl/lightbot-ssot/tar.gz/80d6a0d8493a1e178fd48b86250624fee9222559"
+
 listr-silent-renderer@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/listr-silent-renderer/-/listr-silent-renderer-1.1.1.tgz#924b5a3757153770bf1a8e3fbf74b8bbf3f9242e"

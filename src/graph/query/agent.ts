@@ -1,16 +1,16 @@
 import { isNil } from "lodash";
 import { AgentData } from "~/database/entities";
 import { getAgentDataRepo } from "~/database/repositories";
-import { Agent } from "~/graph";
 import { deployDialogflow } from "~/logic/dialogflow/deploy";
 import { deployRasa } from "~/logic/rasa/deploy";
 import { DeployPlatform } from "~/passthrough";
 import { Context } from "~/server/middleware";
+import { Agent } from "~/types";
 
 export const agentQueries = {
   deploy: async (agent: Agent, __: never, { user }: Context) => {
     const agentDataRepo = getAgentDataRepo();
-    const rawAgentData = await agentDataRepo.findForAgent(agent.id);
+    const rawAgentData = await agentDataRepo.findForAgent({uuid: agent.id});
     const agentData = AgentData.toObject(agent.id, rawAgentData);
 
     if (agentData.deployedOnPlatform === DeployPlatform.Rasa) {
@@ -21,7 +21,7 @@ export const agentQueries = {
       await agentDataRepo.save(
         agentDataRepo.create({
           agent: {
-            id: agent.id,
+            uuid: agent.id,
           },
           key: "deployedOnPlatform",
           data: "DIALOGFLOW",
@@ -32,7 +32,7 @@ export const agentQueries = {
       await agentDataRepo.save(
         agentDataRepo.create({
           agent: {
-            id: agent.id,
+            uuid: agent.id,
           },
           key: "deployedOnPlatform",
           data: "RASA",

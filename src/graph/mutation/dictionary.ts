@@ -2,19 +2,19 @@ import { isNil } from "lodash";
 import { Dictionary } from "~/database/entities";
 import { getDictionaryRepo, getDictionaryValueRepo } from "~/database/repositories";
 import {
+  dictionaryExists,
+  dictionaryNameValidation,
+  dictionaryValidateValueInput,
+} from "~/logic";
+import { Context } from "~/server/middleware";
+import {
   ActionType,
   BatchDictionaryData,
   CreateDictionaryData,
   DeleteDictionaryData,
   DictionaryValueData,
   Input,
-} from "~/graph";
-import {
-  dictionaryExists,
-  dictionaryNameValidation,
-  dictionaryValidateValueInput,
-} from "~/logic";
-import { Context } from "~/server/middleware";
+} from "~/types";
 
 export const dictionaryMutations = {
   createDictionary: async (

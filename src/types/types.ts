@@ -1,4 +1,4 @@
-// Generated in 2019-01-18T10:18:54+01:00
+// Generated in 2019-01-24T10:39:04+01:00
 // THIS FILE IS GENERATED
 /* tslint:disable */
 
@@ -10,7 +10,7 @@ export type Maybe<T> = T | null;
 export interface SearchIntent {
   id: Maybe<number>;
 
-  agentId: Maybe<number>;
+  agentId: Maybe<string>;
 
   isTopLevel: Maybe<boolean>;
 }
@@ -26,13 +26,13 @@ export interface SearchIntentTrigger {
 export interface IntentExpression {
   intentExpression: Maybe<string>;
 
-  agentId: Maybe<number>;
+  agentId: Maybe<string>;
 
   isTopLevel: Maybe<boolean>;
 }
 
 export interface AgentId {
-  agentId: number;
+  agentId: string;
 }
 
 export interface SearchSingleDictionary {
@@ -40,7 +40,7 @@ export interface SearchSingleDictionary {
 }
 
 export interface CreateIntent {
-  agentId: number;
+  agentId: string;
 
   name: string;
 
@@ -88,7 +88,7 @@ export interface DeleteIntent {
 }
 
 export interface UpdateWidgetData {
-  agentId: number;
+  agentId: string;
 
   widgetInputPlaceholder: string;
 
@@ -100,7 +100,7 @@ export interface UpdateWidgetData {
 }
 
 export interface MoveUnknownTriggersToIntentDataInput {
-  agentId: number;
+  agentId: string;
 
   unknownTriggerIds: number[];
 
@@ -108,7 +108,7 @@ export interface MoveUnknownTriggersToIntentDataInput {
 }
 
 export interface CreateIntentWithUnknownTriggers {
-  agentId: number;
+  agentId: string;
 
   unknownTriggers: number[];
 
@@ -118,7 +118,7 @@ export interface CreateIntentWithUnknownTriggers {
 export interface DeleteUnknownTriggers {
   unknownTriggerIds: number[];
 
-  agentId: number;
+  agentId: string;
 }
 
 export interface CreateDictionaryData {
@@ -228,7 +228,7 @@ export interface IntentTrigger {
 }
 
 export interface Agent {
-  id: number;
+  id: string;
 
   name: string;
 

@@ -16,7 +16,7 @@ export async function convertToDialogflow(agent: Agent): Promise<object> {
   await addIntentParents(agent);
   const dictionaries = await getDictionaryRepo().findByAgent(agent);
 
-  const agentData = AgentData.toObject(agent.id, agent.data);
+  const agentData = AgentData.toObject(agent.uuid, agent.data);
 
   return {
     extraData: {

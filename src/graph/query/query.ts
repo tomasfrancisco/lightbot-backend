@@ -1,14 +1,9 @@
 import { getAgentRepo, getDictionaryRepo } from "~/database/repositories";
-import {
-  AgentId,
-  Input,
-  IntentExpression,
-  SearchIntent,
-  SearchSingleDictionary,
-  Where,
-} from "~/graph";
 import { intentSearchByExpression, intentSearchIntents } from "~/logic/intent";
 import { Context } from "~/server/middleware";
+import {
+  AgentId, Input, IntentExpression, SearchIntent, SearchSingleDictionary, Where,
+} from "~/types";
 
 export const rootQueries = {
   me: (__: never, ___: never, context: Context) => context.user.toGraphType(),
@@ -54,7 +49,7 @@ export const rootQueries = {
   },
 
   findAgent: async (__: never, { input }: Input<AgentId>, { user }: Context) => {
-    const agent = await getAgentRepo().findByUserAndId(user, input.agentId, undefined);
+    const agent = await getAgentRepo().findByUserAndId(user, {uuid: input.agentId}, undefined);
 
     return agent ? agent.toGraphType() : undefined;
   },

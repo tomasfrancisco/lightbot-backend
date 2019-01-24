@@ -12,7 +12,7 @@ import { Context, Joi, NextFunction, bodyValidator } from "~/server/middleware";
 const passthroughRouter = new KoaRouter({ prefix: "v1/passthrough" });
 
 const baseInfoValidation = Joi.object({
-  lightbot_agent_id: Joi.number().required(),
+  lightbot_agent_id: Joi.string().required(),
   session_id: Joi.string().required(),
 });
 

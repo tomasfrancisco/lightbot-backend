@@ -1,6 +1,6 @@
 import { isNil } from "lodash";
 import { getAgentRepo, getIntentRepo } from "~/database/repositories";
-import { CreateIntent, DeleteIntent, GraphError, Input, UpdateIntent } from "~/graph";
+import { GraphError } from "~/graph";
 import {
   intentCheckAndSaveTriggers,
   intentCheckReferencedIds,
@@ -10,7 +10,7 @@ import {
   intentValidateOutputs,
 } from "~/logic";
 import { Context } from "~/server/middleware";
-import { ErrorCode } from "~/types";
+import { CreateIntent, DeleteIntent, ErrorCode, Input, UpdateIntent } from "~/types";
 
 export const intentMutations = {
   createIntent: async (__: never, { input }: Input<CreateIntent>, { user }: Context) => {
@@ -18,7 +18,7 @@ export const intentMutations = {
 
     const agent = await getAgentRepo().findByUserAndId(
       user,
-      input.agentId,
+      { uuid: input.agentId },
       new GraphError(ErrorCode.InvalidAgent, "Agent not found."),
     );
     const parent = !isNil(input.parentId)
@@ -54,7 +54,7 @@ export const intentMutations = {
     );
     const agent = await getAgentRepo().findByUserAndId(
       user,
-      intent.agentId,
+      { id: intent.agentId },
       new GraphError(ErrorCode.InvalidAgent, "Agent not found."),
     );
 

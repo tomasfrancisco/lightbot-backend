@@ -9,8 +9,8 @@ SET NAMES utf8mb4;
 
 USE `lightbot`;
 
-INSERT INTO `agent` (`id`, `created_at`, `name`, `company`) VALUES
-  (1,	1548152981,	'Test',	1);
+INSERT INTO `agent` (`id`, `uuid`, `created_at`, `name`, `company`) VALUES
+  (1, '4565b699-6d3a-4915-9722-f00fc9f1a032',	1548152981,	'Test',	1);
 
 INSERT INTO `agent_data` (`id`, `created_at`, `key`, `data`, `agent`) VALUES
   (1,	1548165377,	'deployedOnPlatform',	'RASA',	1);

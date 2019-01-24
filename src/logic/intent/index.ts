@@ -1,15 +1,16 @@
 import { isNil, isNumber, isPlainObject, isString } from "lodash";
 import { Agent, Intent, User } from "~/database/entities";
 import { getIntentRepo, getIntentTriggerRepo } from "~/database/repositories";
+import { GraphError } from "~/graph";
 import {
   ActionType,
   CreateIntentTriggerDataInput,
-  GraphError,
+  ErrorCode,
   IntentExpression,
   IntentTriggerDataInput,
+  IntentTriggerType,
   SearchIntent,
-} from "~/graph";
-import { ErrorCode, IntentTriggerType } from "~/types";
+} from "~/types";
 
 export const intentSearchIntents = async (
   searchData: SearchIntent | undefined,

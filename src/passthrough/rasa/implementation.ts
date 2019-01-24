@@ -50,7 +50,7 @@ export const implementation = {
     return doUserQuery(company!, agent, sessionId, human);
   },
   async getAgentData(agent: Agent): Promise<AgentData> {
-    return (pick(AgentDataEntity.toObject(agent.id, agent.data), [
+    return (pick(AgentDataEntity.toObject(agent.uuid, agent.data), [
       "avatar",
       "name",
       "widgetHotspotIcon",

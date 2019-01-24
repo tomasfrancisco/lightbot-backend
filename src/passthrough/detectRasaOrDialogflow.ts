@@ -8,7 +8,7 @@ export function detectRasaOrDialogflow(agent: Agent): DeployPlatform {
     throw new HttpError(401, "Invalid agent id");
   }
 
-  const agentData = AgentData.toObject(agent.id, agent.data);
+  const agentData = AgentData.toObject(agent.uuid, agent.data);
 
   return agentData.deployedOnPlatform as DeployPlatform;
 }

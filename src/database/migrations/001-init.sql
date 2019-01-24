@@ -10,13 +10,24 @@ CREATE DATABASE lightbot DEFAULT CHARACTER SET utf8mb4;
 
 USE `lightbot`;
 
+DROP TABLE IF EXISTS `company`;
+CREATE TABLE `company` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_at` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
 DROP TABLE IF EXISTS `agent`;
 CREATE TABLE `agent` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `created_at` int(11) NOT NULL,
+  `uuid` VARCHAR(36) NOT NULL,
   `name` varchar(255) NOT NULL,
   `company` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_agent_uuid` (`uuid`),
   UNIQUE KEY `idx_name_company` (`company`,`name`),
   CONSTRAINT `fk_agent_company` FOREIGN KEY (`company`) REFERENCES `company` (`id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -33,16 +44,6 @@ CREATE TABLE `agent_data` (
   UNIQUE KEY `idx_agent_key` (`agent`,`key`),
   CONSTRAINT `fk_agent_data_agent` FOREIGN KEY (`agent`) REFERENCES `agent` (`id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-DROP TABLE IF EXISTS `company`;
-CREATE TABLE `company` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `created_at` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 
 DROP TABLE IF EXISTS `dictionary`;
 CREATE TABLE `dictionary` (
