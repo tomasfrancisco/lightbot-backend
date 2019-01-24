@@ -25,7 +25,7 @@ passthroughRouter.get(
   ),
   async (ctx: Context, next: NextFunction) => {
     const agent = await getAgentRepo().findOneById(
-      ctx.query.lightbot_agent_id,
+      { uuid: ctx.query.lightbot_agent_id },
       new HttpError(400, "Unknown agent."),
     );
     const platform = detectRasaOrDialogflow(agent);
@@ -51,7 +51,7 @@ passthroughRouter.post(
   bodyValidator(baseInfoValidation),
   async (ctx: Context, next: NextFunction) => {
     const agent = await getAgentRepo().findOneById(
-      ctx.request.body.lightbot_agent_id,
+      { uuid: ctx.request.body.lightbot_agent_id },
       new HttpError(400, "Unknown agent."),
     );
     const platform = detectRasaOrDialogflow(agent);
@@ -90,7 +90,7 @@ passthroughRouter.post(
   ),
   async (ctx: Context, next: NextFunction) => {
     const agent = await getAgentRepo().findOneById(
-      ctx.request.body.lightbot_agent_id,
+      { uuid: ctx.request.body.lightbot_agent_id },
       new HttpError(400, "Unknown agent."),
     );
     const platform = detectRasaOrDialogflow(agent);
@@ -131,7 +131,7 @@ passthroughRouter.post(
   ),
   async (ctx: Context, next: NextFunction) => {
     const agent = await getAgentRepo().findOneById(
-      ctx.request.body.lightbot_agent_id,
+      { uuid: ctx.request.body.lightbot_agent_id },
       new HttpError(400, "Unknown agent."),
     );
     const platform = detectRasaOrDialogflow(agent);

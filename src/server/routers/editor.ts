@@ -4,7 +4,7 @@ import { Request, Response } from "koa";
 // @ts-ignore
 import * as graphqlHTTP from "koa-graphql";
 import * as KoaRouter from "koa-router";
-import { isNil, merge } from "lodash";
+import { merge } from "lodash";
 import { join } from "path";
 import { mutations, queries } from "~/graph";
 import { logger } from "~/logger";

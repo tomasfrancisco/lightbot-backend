@@ -11,7 +11,7 @@ const lightbotCLI = require("./old");
 export async function deployDialogflow(agentId: string, user: User): Promise<void> {
   const agent = await getAgentRepo().findByUserAndId(
     user,
-    {uuid: agentId},
+    { uuid: agentId },
     new GraphError(ErrorCode.InvalidAgent, "Invalid agent."),
   );
   logger.log(`Converting data from ${agent.name} to dialogflow.`);

@@ -10,7 +10,7 @@ import { Agent } from "~/types";
 export const agentQueries = {
   deploy: async (agent: Agent, __: never, { user }: Context) => {
     const agentDataRepo = getAgentDataRepo();
-    const rawAgentData = await agentDataRepo.findForAgent({uuid: agent.id});
+    const rawAgentData = await agentDataRepo.findForAgent({ uuid: agent.id });
     const agentData = AgentData.toObject(agent.id, rawAgentData);
 
     if (agentData.deployedOnPlatform === DeployPlatform.Rasa) {

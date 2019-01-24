@@ -1,5 +1,12 @@
 import {
-  Column, Entity, Generated, Index, JoinColumn, ManyToOne, OneToMany, RelationId,
+  Column,
+  Entity,
+  Generated,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  RelationId,
 } from "typeorm";
 import { AgentData } from "./AgentData";
 import { BaseEntity, orderBy } from "./BaseEntity";
@@ -13,7 +20,7 @@ export class Agent extends BaseEntity {
   @Column({
     length: 36,
     type: "varchar",
-    unique: true
+    unique: true,
   })
   @Generated("uuid")
   public uuid!: string;

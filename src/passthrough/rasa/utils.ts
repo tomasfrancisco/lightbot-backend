@@ -1,4 +1,4 @@
-import { isNil } from "lodash";
+import { get, isNil } from "lodash";
 import fetch from "node-fetch";
 import { In } from "typeorm";
 import { Agent, Company, Intent } from "~/database/entities";
@@ -78,7 +78,7 @@ export async function doUserQuery(
     const intents = [...rawResult.intent_ranking];
     console.log(intents, cache.getUserCache(sessionId));
 
-    if (intents[0].confidence < 0.08) {
+    if (intents.length === 0 || intents[0].confidence < 0.08) {
       return triggerFallback(agent, sessionId, human);
     } else if (cache.getUserCache(sessionId).intentHistory.length > 1) {
       return triggerBasedOnCache(agent, intents, sessionId);

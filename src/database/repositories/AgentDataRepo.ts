@@ -6,16 +6,14 @@ import { BaseRepo } from "~/database/repositories/BaseRepo";
 @EntityRepository(AgentData)
 export class AgentDataRepo extends BaseRepo<AgentData> {
   public async findForAgent(agent: Agent | CompositeAgentId): Promise<AgentData[]> {
-
-    return this.find({
-                       where: {
-                         agent: {
-                           ...{
-                             id: agent.id,
-                             uuid: agent.uuid,
-                           },
-                         },
-                       },
-                     });
+    return this.createQueryBuilder("data")
+      .leftJoin("data.agent", "agent")
+      .where("agent.id = :id")
+      .orWhere("agent.uuid = :uuid")
+      .setParameters({
+        id: agent.id || -1,
+        uuid: agent.uuid || "",
+      })
+      .getMany();
   }
 }

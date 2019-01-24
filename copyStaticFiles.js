@@ -3,7 +3,7 @@ const fs = require("fs");
 
 const schemaFile = {
   src: "./node_modules/lightbot-ssot/schema.graphql",
-  dest: "./build/schema.graphql"
+  dest: "./build/schema.graphql",
 };
 
 [schemaFile].forEach(copyFile);
