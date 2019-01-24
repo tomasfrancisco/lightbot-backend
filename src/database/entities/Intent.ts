@@ -74,7 +74,7 @@ export class Intent extends BaseEntity {
       isTopLevel: isNil(this.parentId),
       isWelcome: this.events.includes("LIGHTBOT_WELCOME"),
       isFallback: this.isFallback,
-      triggers: this.triggers.map(it => it.toGraphType()),
+      triggers: (this.triggers || []).map(it => it.toGraphType()),
       outputs: this.outputs,
     };
   }

@@ -69,6 +69,8 @@ export const agentMutations = {
     );
 
     await agentAddAndRemoveUnknownTriggers(input.unknownTriggerIds, agent, intent);
+
+    return (await getIntentRepo().findOneById(intent.id, undefined))!.toGraphType();
   },
   createIntentWithUnknownTriggers: async (
     __: never,
