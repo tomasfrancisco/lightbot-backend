@@ -17,4 +17,4 @@ COPY .env .
 
 WORKDIR /build/build
 
-CMD ["node", "./build/index.js"]
+CMD ["node", "./index.js"]
