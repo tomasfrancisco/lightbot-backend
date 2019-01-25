@@ -9,6 +9,8 @@ build:
   image: docker
   services:
     - docker:dind
+  variables:
+    PROD_DB_PASS: $REAL_PROD_DB_PASS
   only:
     - master
   before_script:
