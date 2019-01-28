@@ -13,6 +13,10 @@ WORKDIR /build
 
 COPY --from=base /app/build /build/build
 COPY --from=base /app/node_modules /build/node_modules
+
+# Try rebuild to get grpc with musl libc instead of glibc
+RUN npm rebuild -q
+
 COPY .env .
 
 WORKDIR /build/build
