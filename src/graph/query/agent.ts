@@ -18,26 +18,10 @@ export const agentQueries = {
     } else if (agentData.deployedOnPlatform === DeployPlatform.Dialogflow) {
       await deployDialogflow(agent.id, user);
     } else if (isNil(agentData.deployedOnPlatform) && !isNil(agentData.gcpData)) {
-      await agentDataRepo.save(
-        agentDataRepo.create({
-          agent: {
-            uuid: agent.id,
-          },
-          key: "deployedOnPlatform",
-          data: "DIALOGFLOW",
-        }),
-      );
+      await agentDataRepo.addForAgent(agent.id, "deployedOnPlatform", "DIALOGFLOW");
       await deployDialogflow(agent.id, user);
     } else {
-      await agentDataRepo.save(
-        agentDataRepo.create({
-          agent: {
-            uuid: agent.id,
-          },
-          key: "deployedOnPlatform",
-          data: "RASA",
-        }),
-      );
+      await agentDataRepo.addForAgent(agent.id, "deployedOnPlatform", "RASA");
       await deployRasa(agent.id, user);
     }
 

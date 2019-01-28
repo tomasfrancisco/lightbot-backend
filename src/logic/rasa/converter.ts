@@ -178,7 +178,7 @@ function extractEntitiesInSentence(
       value.value.toLowerCase() === entityName.toLowerCase(),
   );
   if (isNil(entity)) {
-    throw new Error("Can't find entity.");
+    throw new Error(`Can't find ${entityName} entity.`);
   }
 
   const samples = pickSampleEntityValues(entity);

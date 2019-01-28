@@ -12,7 +12,10 @@ export async function deployRasa(agentId: string, user: User): Promise<void> {
     {uuid: agentId},
     new GraphError(ErrorCode.InvalidAgent, "Invalid agent."),
   );
+
+  logger.log(`Converting data from ${agent.name} to RASA.`);
   const data = await convertToRasa(agent);
+  logger.log(`Deploying ${agent.name} to RASA.`);
 
   const company = await getCompanyRepo().findOne(agent.companyId);
   const projectName = `${company!.name}-${agent.name}`;

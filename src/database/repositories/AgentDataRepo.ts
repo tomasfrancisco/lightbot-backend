@@ -2,6 +2,7 @@ import { EntityRepository } from "typeorm";
 import { Agent, AgentData } from "~/database/entities";
 import { CompositeAgentId } from "~/database/repositories/AgentRepo";
 import { BaseRepo } from "~/database/repositories/BaseRepo";
+import { getAgentRepo } from "~/database/repositories/index";
 
 @EntityRepository(AgentData)
 export class AgentDataRepo extends BaseRepo<AgentData> {
@@ -15,5 +16,21 @@ export class AgentDataRepo extends BaseRepo<AgentData> {
         uuid: agent.uuid || "",
       })
       .getMany();
+  }
+
+  public async addForAgent(
+    agentUUID: string,
+    key: string,
+    data: string,
+  ): Promise<AgentData> {
+    const agent = await getAgentRepo().findOneById({ uuid: agentUUID }, new Error());
+
+    return this.save(
+      this.create({
+        agent,
+        key,
+        data,
+      }),
+    );
   }
 }

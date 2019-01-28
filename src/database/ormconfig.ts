@@ -16,7 +16,7 @@ import { DBNamingStrategy } from "./DBNamingStrategy";
 export const config: ConnectionOptions = {
   name: "default",
   namingStrategy: new DBNamingStrategy(),
-  debug: process.env.NODE_ENV === "development" ? ["ComQueryPacket"] : [],
+  debug: ["ComQueryPacket"],
   type: "mysql",
   host: process.env.DB_HOST,
   username: process.env.DB_USER,
@@ -24,7 +24,8 @@ export const config: ConnectionOptions = {
   port: Number(process.env.DB_PORT),
   database: process.env.DB_NAME,
   synchronize: false,
-  logging: ["error"],
+  logging: ["warn", "error"],
+  maxQueryExecutionTime: 650, // Log queries that take longer than this value in ms
   entities: [
     Agent,
     AgentData,
