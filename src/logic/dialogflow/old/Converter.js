@@ -10,6 +10,7 @@ const {
 const { Agent, Entity, Intent } = require("./models");
 const { FileUtil } = require("./util");
 const _ = require("lodash");
+const { logger } = require("~/logger");
 
 /**
  * Process manager
@@ -74,13 +75,13 @@ class Converter {
       );
     });
 
-    converter
+    return converter
       .convert()
       .then(() => {
-        console.log("Done!");
+        logger.log("Done");
       })
       .catch(err => {
-        console.error("Non-catched error:", err);
+        logger.error("Non-catched error:", err);
       });
   }
 
@@ -98,27 +99,21 @@ class Converter {
       entities: data.entities.map(it => new Entity(it)),
     };
 
-    return new Promise((resolve, reject) => {
-      try {
-        converter.convert().then(resolve);
-      } catch (e) {
-        reject(e);
-      }
-    });
+    return converter.convert();
   }
 
   /**
    * The 'brain'
    */
   convert() {
-    console.log("Starting conversions.");
+    logger.log("Starting conversions.");
 
     // Validation
     const fileValidator = new FileValidator();
     this.visitRaw(fileValidator);
 
     // Normalize and generation
-    console.log("Transforming and normalizing intents and entities");
+    logger.log("Transforming and normalizing intents and entities");
     const transformer = new Transformer();
     this.data.agent = this.rawData.agent.accept(transformer);
 
@@ -131,7 +126,7 @@ class Converter {
     });
 
     // Context and parents
-    console.log("Building and writing files");
+    logger.log("Building and writing files");
     const conversationFlow = new ConversationFlow(
       this.rawData.context,
       this.data.intents,

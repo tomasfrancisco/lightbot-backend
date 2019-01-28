@@ -2,13 +2,15 @@ const fs = require("fs");
 const path = require("path");
 const yaml = require("js-yaml");
 const rimraf = require("rimraf");
+const { logger } = require("~/logger");
+
 
 function getFileAndParse(filename) {
   let data = null;
   try {
     data = fs.readFileSync(`${filename}`, "utf8").toString();
   } catch (e) {
-    console.log(`Could not read: ${filename}`);
+    logger.log(`Could not read: ${filename}`);
     return {};
   }
   return yaml.safeLoad(data, { filename });

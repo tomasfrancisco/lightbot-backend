@@ -4,6 +4,7 @@ import { In } from "typeorm";
 import { Agent, Company, Intent } from "~/database/entities";
 import { getIntentRepo } from "~/database/repositories";
 import { GraphError } from "~/graph";
+import { logger } from "~/logger";
 import { BotResponse } from "~/passthrough";
 import { saveFallbackMessage } from "~/passthrough/common";
 import { cache } from "~/passthrough/rasa/ChatCache";
@@ -76,7 +77,7 @@ export async function doUserQuery(
   if (result.ok && result.status === 200) {
     const rawResult = await result.json();
     const intents = [...rawResult.intent_ranking];
-    console.log(intents, cache.getUserCache(sessionId));
+    logger.log(intents, cache.getUserCache(sessionId));
 
     if (intents.length === 0 || intents[0].confidence < 0.08) {
       return triggerFallback(agent, sessionId, human);
@@ -151,7 +152,7 @@ async function triggerBasedOnCache(
   const finalRecommendedIntent = possibleIntents.sort((a, b) =>
     b.confidence > a.confidence ? 1 : b.confidence === a.confidence ? 0 : -1,
   );
-  console.log(finalRecommendedIntent);
+  logger.log(finalRecommendedIntent);
 
   const foundIntent = await intentRepo.findOne({
     where: { agent, name: finalRecommendedIntent[0].name },

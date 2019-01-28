@@ -3,6 +3,8 @@ const _ = require("lodash");
 const dialogflow = require("dialogflow");
 const fs = require("fs");
 const path = require("path");
+const { logger } = require("~/logger");
+
 
 /**
  * Some small post processing tasks
@@ -13,22 +15,24 @@ class PostProcess {
       if (_.isNil(agent.gcpProject) && _.isNil(extraData.gcpData)) {
         return;
       }
-      console.log("ZIP:", zipPath, "AgentData:", agent.gcpProject, extraData.gcpData);
+      logger.log("ZIP:", zipPath, "AgentData:", agent.gcpProject, extraData.gcpData);
       return PostProcess.upload(zipPath, agent.gcpProject, extraData.gcpData);
     });
   }
 
   static zipOutput(outputDirectory, agentName = "output") {
-    console.log("Zipping output...");
+    logger.log("Zipping output...");
     return new Promise((resolve, reject) => {
       const output = fs.createWriteStream(path.join(outputDirectory, `${agentName}.zip`));
       const archive = archiver("zip");
 
       output.on("close", () => {
+        logger.log("Wrote zip.", outputDirectory, agentName);
         resolve(`${outputDirectory + agentName}.zip`);
       });
 
       archive.on("error", err => {
+        logger.error(err);
         reject(err);
       });
 
@@ -40,7 +44,7 @@ class PostProcess {
   }
 
   static upload(zipPath, project, gcpData) {
-    console.log("Uploading...");
+    logger.log("Uploading...");
     return new Promise((resolve, reject) => {
       const keyPath = _.isNil(gcpData)
         ? `${__dirname}../../../Upload${project}.json`
@@ -66,7 +70,7 @@ class PostProcess {
               if (dfErr) {
                 reject(dfErr);
               } else {
-                console.log("Done uploading!");
+                logger.log("Done uploading!");
                 resolve();
               }
             },

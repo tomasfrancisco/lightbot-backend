@@ -3,8 +3,11 @@ const Builder = require("./Builder");
 const _ = require("lodash");
 const { FileUtil } = require("../util");
 const JsonManipulator = require("./JsonManipulator");
+const { logger } = require("~/logger");
 
 class IntentBuilder extends Builder {
+  static hasLoggedEntities = false;
+
   constructor(intent, agentLanguages, entityNames) {
     super();
     this.intent = { ...intent };
@@ -14,7 +17,11 @@ class IntentBuilder extends Builder {
     this.intentLangFiles = {};
 
     this.entityNames = entityNames.map(it => it.toLowerCase());
-    console.log("Entities: ", this.entityNames);
+
+    if (!IntentBuilder.hasLoggedEntities) {
+      logger.log("Entities: ", this.entityNames);
+      IntentBuilder.hasLoggedEntities = true;
+    }
 
     this.validateLanguages();
   }
@@ -274,7 +281,7 @@ class IntentBuilder extends Builder {
         const params = item.accepts;
         const keys = Object.keys(params);
         if (keys.length === 0) {
-          console.log(`Skipping trigger in  ${this.intent.name} because it is invalid.`);
+          logger.log(`Skipping trigger in  ${this.intent.name} because it is invalid.`);
           continue;
         }
 
@@ -288,7 +295,7 @@ class IntentBuilder extends Builder {
       } else if (_.isPlainObject(item) && _.has(item, "combination")) {
         result.push(...this.generateWildcardCombinations(item.combination));
       } else {
-        console.log(`Skipping trigger in  ${this.intent.name} because it is invalid.`);
+        logger.log(`Skipping trigger in  ${this.intent.name} because it is invalid.`);
       }
     }
     return result;
@@ -324,7 +331,7 @@ class IntentBuilder extends Builder {
     ];
 
     const combinations = [];
-    console.log("Memory before:", process.memoryUsage());
+    logger.log("Memory before:", process.memoryUsage());
     /**
      * Make sure that wildcards dont followup on each other at the start or end
      * And then save the value
@@ -361,10 +368,9 @@ class IntentBuilder extends Builder {
       }
     };
     generator("", valueArr);
-    console.log("Memory after:", process.memoryUsage());
+    logger.log("Memory after:", process.memoryUsage());
 
-    // console.log(JSON.stringify(combinations, null, 2));
-    console.log(
+    logger.log(
       `Generated ${combinations.length} combinations for input: ${values.join(", ")}`,
     );
     return combinations;

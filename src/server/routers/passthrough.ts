@@ -1,5 +1,6 @@
 import * as KoaRouter from "koa-router";
 import { getAgentRepo } from "~/database/repositories";
+import { logger } from "~/logger";
 import {
   DeployPlatform,
   detectRasaOrDialogflow,
@@ -55,7 +56,7 @@ passthroughRouter.post(
       new HttpError(400, "Unknown agent."),
     );
     const platform = detectRasaOrDialogflow(agent);
-    console.log(platform);
+    logger.log("Start chat for for platform:", platform, "and Agent:", agent.id);
     let result: any;
     if (platform === DeployPlatform.Rasa) {
       result = await rasaImplementation.triggerEvent(
