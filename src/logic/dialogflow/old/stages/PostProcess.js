@@ -27,7 +27,6 @@ class PostProcess {
       const archive = archiver("zip");
 
       output.on("close", () => {
-        logger.log("Wrote zip.", outputDirectory, agentName);
         resolve(`${outputDirectory + agentName}.zip`);
       });
 

@@ -19,9 +19,7 @@ export async function convertToDialogflow(agent: Agent): Promise<object> {
   const agentData = AgentData.toObject(agent.uuid, agent.data);
 
   return {
-    extraData: {
-      gcpData: agentData.gcpData,
-    },
+    gcpData: agentData.gcpData,
     agent: convertAgentToConverter(agent),
     context: {},
     intents: convertIntentsToConverter(agent.intents),
