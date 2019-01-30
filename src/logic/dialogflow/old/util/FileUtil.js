@@ -4,7 +4,6 @@ const yaml = require("js-yaml");
 const rimraf = require("rimraf");
 const { logger } = require("~/logger");
 
-
 function getFileAndParse(filename) {
   let data = null;
   try {
