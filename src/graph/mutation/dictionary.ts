@@ -91,6 +91,7 @@ export const dictionaryMutations = {
     context: Context,
   ) => {
     await dictionaryExists(input.id, context.user);
+    await getDictionaryValueRepo().delete({ dictionary: { id: input.id } });
     await getDictionaryRepo().delete(input.id);
   },
 };
