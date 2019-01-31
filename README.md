@@ -4,7 +4,7 @@
 > [ts-backend-boilerplate](https://gitlab.com/lightbase/ts-backend-boilerplate). For more
 > info on commands to run check that repo.
 
-[![Build Status](https://travis-ci.com/lightbasenl/lightbot-backend.svg?branch=master)](https://travis-ci.com/lightbasenl/lightbot-backend)
+[![Build Status](https://api.cirrus-ci.com/github/lightbasenl/lightbot-backend.svg)](https://cirrus-ci.com/github/lightbasenl/lightbot-backend)
 
 ## About
 

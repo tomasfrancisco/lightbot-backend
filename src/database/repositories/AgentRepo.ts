@@ -1,3 +1,4 @@
+import { isNil } from "lodash";
 import { EntityRepository } from "typeorm";
 import { Agent, User } from "~/database/entities";
 import { BaseRepo } from "~/database/repositories/BaseRepo";
@@ -15,7 +16,9 @@ export class AgentRepo extends BaseRepo<Agent> {
     id: CompositeAgentId,
     errorIfNull: MaybeError,
   ): SmartPromise<Agent, MaybeError> {
-    const result = await this.findOne(id, { relations: AgentRepo.defaultRelations });
+    const result = !isNil(id.id)
+      ? await this.findOne(id.id, { relations: AgentRepo.defaultRelations })
+      : await this.findOne({ uuid: id.uuid }, { relations: AgentRepo.defaultRelations });
 
     return this.resultOrThrow(result, errorIfNull);
   }
