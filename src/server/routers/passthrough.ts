@@ -8,7 +8,7 @@ import {
   rasaImplementation,
 } from "~/passthrough";
 import { HttpError } from "~/server";
-import { Context, Joi, NextFunction, bodyValidator } from "~/server/middleware";
+import { bodyValidator, Context, Joi, NextFunction } from "~/server/middleware";
 
 const passthroughRouter = new KoaRouter({ prefix: "v1/passthrough" });
 

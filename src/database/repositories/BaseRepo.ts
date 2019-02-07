@@ -29,4 +29,13 @@ export class DictionaryValueRepo extends BaseRepo<DictionaryValue> {}
 export class IntentTriggerRepo extends BaseRepo<IntentTrigger> {}
 
 @EntityRepository(Company)
-export class CompanyRepo extends BaseRepo<Company> {}
+export class CompanyRepo extends BaseRepo<Company> {
+  public async getNewCompany(): Promise<Company> {
+    return this.save(
+      this.create({
+        name: "private",
+      }),
+      { reload: true },
+    );
+  }
+}

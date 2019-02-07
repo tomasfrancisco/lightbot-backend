@@ -8,13 +8,22 @@ export class User extends BaseEntity {
   @JoinColumn()
   public company!: Company;
 
-  @RelationId((user: User) => user.company) public companyId!: number;
+  @RelationId((user: User) => user.company)
+  public companyId!: number;
 
   @Column({
     unique: true,
     length: 255,
   })
-  public username!: string;
+  public email!: string;
+
+  @Column({
+    unique: true,
+    length: 255,
+    nullable: true,
+    type: "varchar",
+  })
+  public googleId?: string | null;
 
   @Column({ length: 255 })
   public password!: string;
@@ -23,6 +32,12 @@ export class User extends BaseEntity {
     default: false,
   })
   public isAdmin!: boolean;
+
+  @Column({ length: 255, nullable: true, type: "varchar" })
+  public resetToken!: string | null;
+
+  @Column({ default: false })
+  public isActivated!: boolean;
 
   public toGraphType(): any {
     return {

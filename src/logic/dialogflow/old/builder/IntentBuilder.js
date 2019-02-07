@@ -286,7 +286,7 @@ class IntentBuilder extends Builder {
         }
 
         const amount = _.get(params, `${keys[0]}`, []).length;
-        for (let i = 0; i < amount; ++i) {
+        for (let i = 0; i < amount; i += 1) {
           result.push({
             input: item.input,
             accepts: _.zipObject(keys, keys.map(it => _.get(params, `${it}[${i}]`, ""))),
@@ -358,7 +358,7 @@ class IntentBuilder extends Builder {
      */
     const generator = (currentValue, items) => {
       if (items.length > 0) {
-        for (let i = 0; i < items.length; ++i) {
+        for (let i = 0; i < items.length; i += 1) {
           const val = `${currentValue} ${items[i]}`;
           addCombination(val);
           const cp = [...items];
@@ -425,7 +425,7 @@ class IntentBuilder extends Builder {
    */
   splitOutEntityTemplates(item) {
     const parts = item.split(" ");
-    for (let i = 0; i < parts.length; ++i) {
+    for (let i = 0; i < parts.length; i += 1) {
       if (parts[i].startsWith("$")) {
         const raw = parts[i].substr(1).trim();
 
@@ -471,7 +471,7 @@ class IntentBuilder extends Builder {
     const parts = item.input.split(" ");
     const result = [];
     let lastIndex = 0;
-    for (let i = 0; i < parts.length; ++i) {
+    for (let i = 0; i < parts.length; i += 1) {
       if (parts[i].startsWith("$")) {
         const originalText = parts[i].substr(1);
         result.push({

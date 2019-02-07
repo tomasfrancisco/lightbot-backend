@@ -33,25 +33,35 @@ async function query(query, args = []) {
 }
 
 async function readAndExecuteSql(fileName) {
-  const fileContents = fs.readFileSync(fileName, { encoding: "utf8" });
-  const lines = fileContents
-    .split(";\n")
-    .filter(it => it.trim().length !== 0)
-    .map(it => it + ";");
-  lines.push("COMMIT;");
-  let p = query("START TRANSACTION;");
+  if (fileName.endsWith(".sql")) {
+    const fileContents = fs.readFileSync(fileName, { encoding: "utf8" });
+    const lines = fileContents
+      .split(";\n")
+      .filter(it => it.trim().length !== 0)
+      .map(it => it + ";");
+    lines.push("COMMIT;");
+    const p = query("START TRANSACTION;");
 
-  await lines.reduce((previousValue, currentValue) => {
-    return previousValue.then(() => query(currentValue));
-  }, p);
+    await lines.reduce(
+      (previousValue, currentValue) => previousValue.then(() => query(currentValue)),
+      p,
+    );
+  } else if (fileName.endsWith(".js")) {
+    const file = require(fileName);
+    await file.run(query);
+  } else {
+    throw new Error(`Unknown file type ${fileName}`);
+  }
 }
 
 async function runAllMigrations() {
-  let p = Promise.resolve();
+  const p = Promise.resolve();
 
-  await MIGRATION_FILES.reduce((previousValue, currentValue) => {
-    return previousValue.then(() => readAndExecuteSql(currentValue));
-  }, p);
+  await MIGRATION_FILES.reduce(
+    (previousValue, currentValue) =>
+      previousValue.then(() => readAndExecuteSql(currentValue)),
+    p,
+  );
 }
 
 /**

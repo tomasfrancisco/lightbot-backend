@@ -5,25 +5,17 @@ SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
-DROP DATABASE IF EXISTS lightbot;
-CREATE DATABASE lightbot DEFAULT CHARACTER SET utf8mb4;
+SET NAMES utf8mb4;
 
+DROP DATABASE IF EXISTS `lightbot`;
+CREATE DATABASE `lightbot` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 USE `lightbot`;
-
-DROP TABLE IF EXISTS `company`;
-CREATE TABLE `company` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `created_at` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 
 DROP TABLE IF EXISTS `agent`;
 CREATE TABLE `agent` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `created_at` int(11) NOT NULL,
-  `uuid` VARCHAR(36) NOT NULL,
+  `uuid` varchar(36) NOT NULL,
   `name` varchar(255) NOT NULL,
   `company` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -44,6 +36,20 @@ CREATE TABLE `agent_data` (
   UNIQUE KEY `idx_agent_key` (`agent`,`key`),
   CONSTRAINT `fk_agent_data_agent` FOREIGN KEY (`agent`) REFERENCES `agent` (`id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `company`;
+CREATE TABLE `company` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_at` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `unique_token` varchar(255) NOT NULL,
+  `admin` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `REL_f933c34eb3cf85e6d22ee4ac01` (`admin`),
+  CONSTRAINT `fk_company_admin` FOREIGN KEY (`admin`) REFERENCES `user` (`id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 DROP TABLE IF EXISTS `dictionary`;
 CREATE TABLE `dictionary` (
@@ -101,18 +107,6 @@ CREATE TABLE `intent_trigger` (
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
-DROP TABLE IF EXISTS `login_token`;
-CREATE TABLE `login_token` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `created_at` int(11) NOT NULL,
-  `token` varchar(255) NOT NULL,
-  `user` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_login_token_user` (`user`),
-  CONSTRAINT `fk_login_token_user` FOREIGN KEY (`user`) REFERENCES `user` (`id`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
 DROP TABLE IF EXISTS `unknown_trigger`;
 CREATE TABLE `unknown_trigger` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -129,15 +123,16 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `created_at` int(11) NOT NULL,
-  `username` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `google_id` varchar(255) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `is_admin` tinyint(4) NOT NULL DEFAULT '0',
+  `reset_token` varchar(255) DEFAULT NULL,
+  `is_activated` tinyint(4) NOT NULL DEFAULT '0',
   `company` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_user_username` (`username`),
+  UNIQUE KEY `idx_user_email` (`email`),
+  UNIQUE KEY `idx_user_google_id` (`google_id`),
   KEY `fk_user_company` (`company`),
   CONSTRAINT `fk_user_company` FOREIGN KEY (`company`) REFERENCES `company` (`id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-SET foreign_key_checks = 1;
--- 2019-01-22 08:26:07

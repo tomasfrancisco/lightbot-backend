@@ -17,29 +17,6 @@ const { logger } = require("~/logger");
  * Defines the order in which the processing classes get called.
  */
 class Converter {
-  constructor() {
-    this.inputDirectory = "";
-    this.outputDirectory = "";
-
-    this.rawData = {
-      agent: {},
-      intents: [],
-      entities: [],
-      context: {},
-    };
-
-    this.data = {
-      agent: {},
-      intents: [],
-      entities: [],
-    };
-
-    /**
-     * Extra data can be used for in memory runs or other non stand-alone runs
-     */
-    this.extraData = {};
-  }
-
   static run(inputDirectories, outputDirectory) {
     inputDirectories = inputDirectories.map(it => {
       if (!it.endsWith("/")) {
@@ -100,6 +77,28 @@ class Converter {
     };
 
     return converter.convert();
+  }
+  constructor() {
+    this.inputDirectory = "";
+    this.outputDirectory = "";
+
+    this.rawData = {
+      agent: {},
+      intents: [],
+      entities: [],
+      context: {},
+    };
+
+    this.data = {
+      agent: {},
+      intents: [],
+      entities: [],
+    };
+
+    /**
+     * Extra data can be used for in memory runs or other non stand-alone runs
+     */
+    this.extraData = {};
   }
 
   /**

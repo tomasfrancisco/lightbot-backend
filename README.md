@@ -33,6 +33,10 @@ Install dependencies: `yarn`
 Run dev migration and seed: `yarn migrate:dev`  
 Start development server: `yarn dev`
 
+The default login for local development:  
+email: test@lightbot.io  
+password: Test1234
+
 ### Installation
 
 ```bash

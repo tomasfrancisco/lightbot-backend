@@ -34,7 +34,6 @@ export const config: ConnectionOptions = {
     DictionaryValue,
     Intent,
     IntentTrigger,
-    LoginToken,
     UnknownTrigger,
     User,
   ],

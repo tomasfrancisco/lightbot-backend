@@ -1,4 +1,13 @@
-import { Column, Entity, OneToMany } from "typeorm";
+import {
+  BeforeInsert,
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  RelationId,
+} from "typeorm";
+import * as uuid from "uuid";
 import { Agent } from "./Agent";
 import { BaseEntity, orderBy } from "./BaseEntity";
 import { Dictionary } from "./Dictionary";
@@ -9,6 +18,16 @@ export class Company extends BaseEntity {
   @Column()
   public name!: string;
 
+  @Column()
+  public uniqueToken!: string;
+
+  @OneToOne(type => User)
+  @JoinColumn()
+  public admin!: User;
+
+  @RelationId((company: Company) => company.admin)
+  public adminId!: number;
+
   @OneToMany(type => Dictionary, dictionary => dictionary.company)
   public dictionaries!: Dictionary[];
 
@@ -17,4 +36,9 @@ export class Company extends BaseEntity {
 
   @OneToMany(type => Agent, agent => agent.company)
   public agents!: Agent[];
+
+  @BeforeInsert()
+  public regenerateToken(): void {
+    this.uniqueToken = uuid();
+  }
 }

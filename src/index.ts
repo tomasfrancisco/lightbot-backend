@@ -10,6 +10,8 @@ import { IS_PRODUCTION, IS_TEST } from "~/utils";
 const REQUIRED_ENV_KEYS = [
   "NODE_ENV",
   "SERVER_PORT",
+  "SERVER_URL",
+  "EDITOR_URL",
   "DB_HOST",
   "DB_PORT",
   "DB_USER",

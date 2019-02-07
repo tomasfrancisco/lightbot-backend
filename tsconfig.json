@@ -21,7 +21,8 @@
     "diagnostics": true,
     "resolveJsonModule": true,
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "typeRoots": ["./src/types"]
   },
   "exclude": ["node_modules", "test/", "src/@lightbot"],
   "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.json"],

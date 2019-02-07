@@ -1,10 +1,10 @@
 import { getCustomRepository } from "typeorm";
+import { UserRepository } from "~/database/repositories/UserRepository";
 import { AgentDataRepo } from "./AgentDataRepo";
 import { AgentRepo } from "./AgentRepo";
 import { CompanyRepo, DictionaryValueRepo, IntentTriggerRepo } from "./BaseRepo";
 import { DictionaryRepo } from "./DictionaryRepo";
 import { IntentRepo } from "./IntentRepo";
-import { LoginTokenRepo } from "./LoginTokenRepo";
 import { UnknownTriggerRepo } from "./UnknownTriggerRepo";
 
 export const getAgentDataRepo = () => getCustomRepository(AgentDataRepo);
@@ -14,5 +14,5 @@ export const getDictionaryValueRepo = () => getCustomRepository(DictionaryValueR
 export const getIntentTriggerRepo = () => getCustomRepository(IntentTriggerRepo);
 export const getDictionaryRepo = () => getCustomRepository(DictionaryRepo);
 export const getIntentRepo = () => getCustomRepository(IntentRepo);
-export const getLoginTokenRepo = () => getCustomRepository(LoginTokenRepo);
+export const getUserRepo = () => getCustomRepository(UserRepository);
 export const getUnknownTriggerRepo = () => getCustomRepository(UnknownTriggerRepo);
