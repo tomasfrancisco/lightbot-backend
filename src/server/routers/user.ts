@@ -62,7 +62,7 @@ userRouter.post(
     const { email, companyToken } = ctx.request.body;
     const userExists = await userRepo.getByEmail(email);
     if (!isNil(userExists)) {
-      throw new HttpError(400, "Email already in use.");
+      throw new HttpError(400, "Something went wrong.");
     } else {
       const company = await (isNil(companyToken)
         ? companyRepo.save(
@@ -147,11 +147,11 @@ userRouter.post(
       .required(),
   }),
   async (ctx: Context, next: NextFunction) => {
-    const { email } = ctx.request.body.email;
+    const { email } = ctx.request.body;
     const userRepo = getUserRepo();
     const user = await userRepo.getByEmail(email);
     if (isNil(user)) {
-      throw new HttpError(400, "Invalid email.");
+      throw new HttpError(400, "Something went wrong.");
     } else {
       user.resetToken = uuid();
       await userRepo.save(user);
@@ -177,7 +177,7 @@ userRouter.post("/login", logOut, async (ctx: Context, next: NextFunction) =>
       throw err;
     } else if (user === false || isNil(user)) {
       ctx.logout();
-      throw new HttpError(401, "Invalid username or password.");
+      throw new HttpError(401, "Invalid email or password.");
     } else {
       ctx.body = {
         message: "Login successful",
