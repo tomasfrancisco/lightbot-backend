@@ -231,7 +231,7 @@ class IntentBuilder extends Builder {
       type: "jump",
       jumps: (item.jumps || []).map(it => ({
         label: it.label,
-        event: it.intentId,
+        event: `Trigger-${it.intentId}`,
       })),
     };
   }

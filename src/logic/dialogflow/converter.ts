@@ -22,8 +22,8 @@ export async function convertToDialogflow(agent: Agent): Promise<object> {
     gcpData: agentData.gcpData,
     agent: convertAgentToConverter(agent),
     context: {},
-    intents: convertIntentsToConverter(agent.intents),
-    entities: convertDictionariesToConver(dictionaries),
+    intents: await convertIntentsToConverter(agent.intents),
+    entities: convertDictionariesToConverter(dictionaries),
   };
 }
 
@@ -45,24 +45,26 @@ function convertAgentToConverter(agent: Agent): object {
   };
 }
 
-function convertIntentsToConverter(intents: Intent[]): object[] {
-  return intents.map(intent => {
-    const events = intent.events || [];
-    events.push(`Trigger-${camelCaseString(intent.name)}`);
+async function convertIntentsToConverter(intents: Intent[]): Promise<object[]> {
+  return Promise.all(
+    intents.map(async intent => {
+      const events = intent.events || [];
+      events.push(`Trigger-${camelCaseString(intent.name)}`);
 
-    return {
-      [camelCaseString(intent.name)]: {
-        events,
-        action: intent.action || undefined,
-        fallback: intent.isFallback || false,
-        parent: !isNil(intent.parentId)
-          ? camelCaseString(intent.parent!.name)
-          : undefined,
-        triggers: convertTriggersToConverter(intent.triggers),
-        outputs: convertOutputsToConverter(intent.outputs),
-      },
-    };
-  });
+      return {
+        [camelCaseString(intent.name)]: {
+          events,
+          action: intent.action || undefined,
+          fallback: intent.isFallback || false,
+          parent: !isNil(intent.parentId)
+            ? camelCaseString(intent.parent!.name)
+            : undefined,
+          triggers: convertTriggersToConverter(intent.triggers),
+          outputs: await convertOutputsToConverter(intent.outputs),
+        },
+      };
+    }),
+  );
 }
 
 function convertTriggersToConverter(triggers: IntentTrigger[]): any[] | undefined {
@@ -80,36 +82,51 @@ function convertTriggersToConverter(triggers: IntentTrigger[]): any[] | undefine
   });
 }
 
-function convertOutputsToConverter(outputs: any[]): any[] | undefined {
+async function convertOutputsToConverter(outputs: any[]): Promise<any[] | undefined> {
   if (isNil(outputs) || isEmpty(outputs)) {
     return;
   }
 
-  return outputs.map(it => {
-    switch (it.type) {
-      case "JUMPS":
-        return {
-          jumps: it.value.jumps,
-        };
-      case "LINK":
-        return {
-          type: "link",
-          ...it.value,
-        };
-      case "PLAIN":
-        return it.value.label;
-      default:
-        return {
-          [it.type.toLowerCase()]: {
+  return Promise.all(
+    outputs.map(async it => {
+      switch (it.type) {
+        case "JUMPS":
+          return {
+            jumps: await convertJumpsToConverter(it.value.jumps),
+          };
+        case "LINK":
+          return {
+            type: "link",
             ...it.value,
-            type: undefined,
-          },
-        };
-    }
-  });
+          };
+        case "PLAIN":
+          return it.value.label;
+        default:
+          return {
+            [it.type.toLowerCase()]: {
+              ...it.value,
+              type: undefined,
+            },
+          };
+      }
+    }),
+  );
 }
 
-function convertDictionariesToConver(dictionaries: Dictionary[]): any[] | undefined {
+async function convertJumpsToConverter(jumps: any[]): Promise<any[]> {
+  return Promise.all(
+    jumps.map(async it => {
+      const intent = await getIntentRepo().findOneById(it.intentId, new Error());
+
+      return {
+        label: it.label,
+        intentId: camelCaseString(intent.name),
+      };
+    }),
+  );
+}
+
+function convertDictionariesToConverter(dictionaries: Dictionary[]): any[] | undefined {
   if (isNil(dictionaries) || isEmpty(dictionaries)) {
     return undefined;
   }
