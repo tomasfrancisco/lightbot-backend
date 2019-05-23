@@ -16,7 +16,7 @@ export const handleReponse = async (
 
   if (
     !isNil(message) &&
-    get(message, "result.metadata.isFallbackIntent", "false") !== "true"
+    get(response, "result.metadata.isFallbackIntent", "false") === "true"
   ) {
     await saveFallbackMessage(agent, message);
   }
