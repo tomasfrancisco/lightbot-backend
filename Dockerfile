@@ -2,7 +2,7 @@ FROM node:10.15-jessie as base
 
 WORKDIR /app
 
-COPY package.json yarn.lock tsconfig.json .env copyStaticFiles.js ./
+COPY package.json yarn.lock tsconfig.json copyStaticFiles.js ./
 COPY ./src /app/src
 
 RUN yarn --production=false && yarn build && rm -rf ./node_modules && yarn install --production
