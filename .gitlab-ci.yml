@@ -17,9 +17,24 @@ build:
   before_script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
   script:
-    - docker build -t ${CI_REGISTRY}/lightbase/lightbot-backend:latest -t ${CI_REGISTRY}/lightbase/lightbot-backend:$CI_COMMIT_SHA .
-    - docker push ${CI_REGISTRY}/lightbase/lightbot-backend:latest
-    - docker push ${CI_REGISTRY}/lightbase/lightbot-backend:$CI_COMMIT_SHA
+    - docker build -t ${CI_REGISTRY}/lightbase/lightbot-backend/api:latest -t ${CI_REGISTRY}/lightbase/lightbot-backend/api:$CI_COMMIT_SHA .
+    - docker push ${CI_REGISTRY}/lightbase/lightbot-backend/api:latest
+    - docker push ${CI_REGISTRY}/lightbase/lightbot-backend/api:$CI_COMMIT_SHA
+
+build_rasa:
+  stage: build
+  image: docker
+  services:
+    - docker:didn
+  only:
+    - master
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+  script:
+    - cd rasa
+    - docker build -t ${CI_REGISTRY}/lightbase/lightbot-backend/rasa:latest -t ${CI_REGISTRY}/lightbase/lightbot-backend/rasa:$CI_COMMIT_SHA .
+    - docker push ${CI_REGISTRY}/lightbase/lightbot-backend/rasa:latest
+    - docker push ${CI_REGISTRY}/lightbase/lightbot-backend/rasa:$CI_COMMIT_SHA
 
 run_deploy:
   stage: deploy
